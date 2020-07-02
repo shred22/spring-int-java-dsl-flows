@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  description: This is REST API that opens doorways for routing slip pattern, this will
+    process message of any type and acts as an orchestrator
+  version: 1.0.0
+  title: Routing Slip Implementation
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: shreyas.dange22@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+tags:
+  - name: integrator
+    description: Access to Integrator and internal API
+paths:
+  /gateway:
+    post:
+      tags:
+        - integrator
+      summary: Customer Service Integrator
+      description: ""
+      operationId: integrator
+      parameters:
+        - name: Participant-Code
+          in: header
+          description: Participant'd Id in Orchestrator Application
+          required: true
+          example: "009098"
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JsonRequest"
+        description: Json Request from the REST API consumer
+        required: true
+      responses:
+        "200":
+          description: Successful Integration Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonResponse"
+        "405":
+          description: Invalid input
+        "500":
+          description: Server Error
+servers:
+  - url: http://localhost:8282
+components:
+  schemas:
+    JsonRequest:
+      type: object
+      required:
+        - name
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 5
+          maximum: 10
+        name:
+          type: string
+          example: shreyas
+          minLength: 5
+          maxLength: 10
+          x-pattern-message: extension pattern message.
+    JsonResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: string
+          example: APPROVED
+          minLength: 5
+          maxLength: 10
+          x-pattern-message: extension pattern message.
+          x-message: -------Invalid String provided

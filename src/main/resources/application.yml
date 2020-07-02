@@ -1,0 +1,8 @@
+server:
+  port: 8282
+  servlet:
+    context-path: /integrator
+
+springdoc:
+  swagger-ui:
+    path: /

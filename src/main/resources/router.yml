@@ -1,0 +1,23 @@
+routing:
+  flows:
+    - messageType: 'GATEWAY-API'
+      flow:
+        - handlerClass: 'OutboundRequest'
+          channel: 'outboundChannel'
+          index: 0
+
+        - handlerClass: 'InternalRequest'
+          channel: 'outboundChannel'
+          index: 1
+    - messageType: 'GATEWAY-API-2'
+      flow:
+        - handlerClass: 'OutboundRequest'
+          channel: 'outboundChannel-2'
+          index: 0
+
+        - handlerClass: 'InternalRequest'
+          channel: 'outboundChannel-2'
+          index: 1
+
+
+
