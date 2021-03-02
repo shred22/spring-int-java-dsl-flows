@@ -1,4 +1,4 @@
-package com.javadsl.flow;
+package com.javadsl.flow.gateway;
 
 
 import org.springframework.integration.annotation.Gateway;

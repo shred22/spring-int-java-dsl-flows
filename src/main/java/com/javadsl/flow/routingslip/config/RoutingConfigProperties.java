@@ -19,7 +19,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoutingConfig {
+public class RoutingConfigProperties {
 
     private List<Flows> flows = Collections.emptyList();
 }

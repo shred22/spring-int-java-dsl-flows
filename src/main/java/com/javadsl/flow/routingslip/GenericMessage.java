@@ -1,22 +1,17 @@
 package com.javadsl.flow.routingslip;
 
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+@Builder
 @Getter
 @Setter
-@Builder
 @ToString
-public class GenericRequest {
+public class GenericMessage {
 
-    private Object payload;
-
-    private RouteDetails routeDetails;
-
-    private FlowDetail flowDetail;
-
+  private GenericRequest genericRequest;
+  private GenericResponse genericResponse;
 
 }

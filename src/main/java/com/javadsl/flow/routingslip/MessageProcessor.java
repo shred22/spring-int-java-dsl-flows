@@ -1,22 +1,23 @@
 package com.javadsl.flow.routingslip;
 
-import com.javadsl.flow.routingslip.config.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.integration.core.MessagingTemplate;
-import org.springframework.integration.support.MessageBuilder;
-import org.springframework.messaging.Message;
-import org.springframework.stereotype.Component;
+import com.javadsl.flow.routingslip.config.Flows;
+import com.javadsl.flow.routingslip.config.RoutingConfigProperties;
 
 import java.util.List;
 
-@Component
+import org.springframework.integration.core.MessagingTemplate;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
+
 public class MessageProcessor {
 
-    @Autowired
     private MessagingTemplate template;
+    private RoutingConfigProperties routingConfigProperties;
 
-    @Autowired
-    private RoutingConfig routingConfig;
+    public MessageProcessor(MessagingTemplate template, RoutingConfigProperties routingConfigProperties) {
+        this.template = template;
+        this.routingConfigProperties = routingConfigProperties;
+    }
 
     public Message<?> prepareMessage(GenericRequest genericRequest) {
         return MessageBuilder.withPayload(genericRequest).copyHeaders(genericRequest.getFlowDetail().convertToHeaderMap(
@@ -25,15 +26,15 @@ public class MessageProcessor {
 
     public Message<?> executeRoutingSlip(Message<?> request) {
         Flows route = findStartingRoute(request);
-        ((FlowDetail)request.getHeaders().get(((GenericRequest) request.getPayload()).getRouteDetails().getMessageType())).getHeaders().getDomainHeaders().put("ExecutedRoute", route);
-        Message<?> outboundChannel = template.sendAndReceive(route.getFlow().get(0).getChannel(), request);
-        return outboundChannel;
+        ((GenericRequest) request.getPayload()).getRouteDetails().setExecutedRoute(route.getFlow().get(0));
+        ((FlowDetail)request.getHeaders().get(((GenericRequest) request.getPayload()).getRouteDetails().getMessageType())).getHeaders().getDomainHeaders().put(route.getFlow().get(0).getHandlerClass(), route.getFlow().get(0));
+        Message<?> firstStepResponse = template.sendAndReceive(route.getFlow().get(0).getChannel(), request);
+        Flows nextStepInCurrentRoute = findNextStepInCurrentRoute(firstStepResponse);
+        return firstStepResponse;
     }
 
     private Flows findStartingRoute(Message<?> request) {
-
-        List<Flows> flows = routingConfig.getFlows();
-
+        List<Flows> flows = routingConfigProperties.getFlows();
         for (Flows flow : flows) {
             if (flow.getMessageType().contains(((GenericRequest) request.getPayload()).getRouteDetails().getMessageType())) {
                 return flow;
@@ -44,9 +45,9 @@ public class MessageProcessor {
         return null;
     }
 
-    private Route findNextRoute(Message<?> responseMessage, Route route) {
+    private Flows findNextStepInCurrentRoute(Message<?> request) {
 
-
+        request.getPayload();
         return null;
     }
 }

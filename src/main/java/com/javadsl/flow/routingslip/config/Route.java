@@ -24,6 +24,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@ToString
 public class Route {
 
     private String handlerClass;

@@ -1,15 +1,19 @@
 package com.javadsl.flow.routingslip;
 
-import lombok.Builder;
-import lombok.Data;
-
 import java.util.Map;
 
-@Data
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
 @Builder
+@ToString
 public class Header {
 
-    private Object actualRequest;
+    private Object originalRequest;
     private Map<String, Object> httpHeaders;
     private Map<String, Object> domainHeaders;
     private Map<String, Object> routeHeaders;

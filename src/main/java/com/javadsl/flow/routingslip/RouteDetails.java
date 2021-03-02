@@ -1,8 +1,13 @@
 package com.javadsl.flow.routingslip;
 
 import com.javadsl.flow.routingslip.config.Route;
-import lombok.*;
-import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 
 @Getter
@@ -16,5 +21,6 @@ public class RouteDetails {
     private String contentType;
     private String messageType;
     private Route executedRoute;
+    private List<String> validationKeys;
 
 }
