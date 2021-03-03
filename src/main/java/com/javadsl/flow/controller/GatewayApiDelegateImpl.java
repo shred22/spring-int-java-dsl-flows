@@ -11,8 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javadsl.flow.gateway.InboundCustomGateway;
 import com.javadsl.flow.routingslip.FlowDetail;
-import com.javadsl.flow.routingslip.GenericRequest;
-import com.javadsl.flow.routingslip.Header;
+import com.javadsl.flow.routingslip.model.GenericRequest;
+import com.javadsl.flow.routingslip.model.Header;
 import com.javadsl.flow.routingslip.MessageProcessor;
 import com.javadsl.flow.routingslip.RouteDetails;
 
@@ -66,7 +66,6 @@ public class GatewayApiDelegateImpl implements IntegratorApiDelegate {
               .payload(jsonMapper.writeValueAsString(body))
               .flowDetail(FlowDetail.builder()
                   .headers(Header.builder().httpHeaders(Map.of("Participant-Code", participantCode))
-                      .originalRequest(body)
                       .domainHeaders(new HashMap<>())
                       .build())
                   .finalResponseClazz(JsonResponse.class).build())

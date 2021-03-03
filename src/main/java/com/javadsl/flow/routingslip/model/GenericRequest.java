@@ -1,5 +1,8 @@
-package com.javadsl.flow.routingslip;
+package com.javadsl.flow.routingslip.model;
 
+
+import com.javadsl.flow.routingslip.FlowDetail;
+import com.javadsl.flow.routingslip.RouteDetails;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.javadsl.flow.service;
 
-import com.javadsl.flow.routingslip.GenericRequest;
+import com.javadsl.flow.routingslip.model.GenericRequest;
 import com.javadsl.flow.routingslip.MessageProcessor;
 
 import org.springframework.integration.annotation.ServiceActivator;

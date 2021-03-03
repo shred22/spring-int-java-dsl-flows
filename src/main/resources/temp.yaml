@@ -3,10 +3,10 @@ temp:
     messageType: INTEGRATION_MSG
     route:
       - FirstOutboundCall:
-         handlerClass: com.javadsl.flow.routingslip.GenericRequest
+         handlerClass: com.javadsl.flow.routingslip.model.GenericRequest
          requestType: LOOKUP
          index: 0
       - SecondOutboundCall:
-          handlerClass: com.javadsl.flow.routingslip.GenericRequest
+          handlerClass: com.javadsl.flow.routingslip.model.GenericRequest
           requestType: LOOKUP
           index: 1

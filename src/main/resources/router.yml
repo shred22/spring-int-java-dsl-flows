@@ -9,6 +9,8 @@ routing:
         - handlerClass: 'InternalRequest'
           channel: 'outboundChannel'
           index: 1
+
+
     - messageType: 'GATEWAY-API-2'
       flow:
         - handlerClass: 'OutboundRequest'

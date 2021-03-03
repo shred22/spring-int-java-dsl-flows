@@ -1,7 +1,10 @@
 package com.javadsl.flow.routingslip;
 
 import com.javadsl.flow.routingslip.config.Flows;
+import com.javadsl.flow.routingslip.config.Route;
 import com.javadsl.flow.routingslip.config.RoutingConfigProperties;
+import com.javadsl.flow.routingslip.model.GenericRequest;
+import com.javadsl.flow.routingslip.model.GenericResponse;
 
 import java.util.List;
 
@@ -27,9 +30,9 @@ public class MessageProcessor {
     public Message<?> executeRoutingSlip(Message<?> request) {
         Flows route = findStartingRoute(request);
         ((GenericRequest) request.getPayload()).getRouteDetails().setExecutedRoute(route.getFlow().get(0));
-        ((FlowDetail)request.getHeaders().get(((GenericRequest) request.getPayload()).getRouteDetails().getMessageType())).getHeaders().getDomainHeaders().put(route.getFlow().get(0).getHandlerClass(), route.getFlow().get(0));
+        ((FlowDetail)request.getHeaders().get(((GenericRequest) request.getPayload()).getRouteDetails().getMessageType())).getHeaders().getDomainHeaders().put("executedRoute-"+route.getFlow().get(0).getHandlerClass(), route.getFlow());
         Message<?> firstStepResponse = template.sendAndReceive(route.getFlow().get(0).getChannel(), request);
-        Flows nextStepInCurrentRoute = findNextStepInCurrentRoute(firstStepResponse);
+        findNextStepInCurrentRoute(firstStepResponse, route.getFlow());
         return firstStepResponse;
     }
 
@@ -45,10 +48,14 @@ public class MessageProcessor {
         return null;
     }
 
-    private Flows findNextStepInCurrentRoute(Message<?> request) {
+    private Message<?> findNextStepInCurrentRoute(Message<?> message, List<Route> routes) {
+        for(int i=1; i < routes.size(); i++) {
+            List<Route> flow = ((List<Route>)((GenericResponse) message.getPayload()).getHeader().getDomainHeaders()
+                .get("executedRoute-" + routes.get(i - 1).getHandlerClass()));
+            Message<?> responseMessage = template.sendAndReceive(flow.get(i).getChannel(), message);
 
-        request.getPayload();
-        return null;
+        }
+        return message;
     }
 }
 

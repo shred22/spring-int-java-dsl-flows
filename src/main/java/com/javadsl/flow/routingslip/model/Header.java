@@ -1,4 +1,4 @@
-package com.javadsl.flow.routingslip;
+package com.javadsl.flow.routingslip.model;
 
 import java.util.Map;
 
@@ -13,8 +13,7 @@ import lombok.ToString;
 @ToString
 public class Header {
 
-    private Object originalRequest;
-    private Map<String, Object> httpHeaders;
+    private Map<String, String> httpHeaders;
     private Map<String, Object> domainHeaders;
     private Map<String, Object> routeHeaders;
 
